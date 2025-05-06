@@ -19,32 +19,30 @@ public class UserService {
 
     @Transactional
     public User createUser(UserDTO userDTO) {
-        log.info("Creating new user with email: {}", userDTO.getEmail());
-        User user = userMapper.toEntity(userDTO);
-        return userRepository.save(user);
+        log.info("Создание нового пользователя с адресом электронной почты: {}", userDTO.getEmail());
+        return userRepository.save(userMapper.toEntity(userDTO));
     }
 
     public UserDTO getUserById(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
-        return userMapper.toDto(user);
+        log.info("Получение пользователя с ID: {}", id);
+        return userMapper.toDto(userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id)));
     }
 
     @Transactional
     public UserDTO updateUser(Long id, UserDTO userDTO) {
+        log.info("Обновление пользователя с ID: {}", id);
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
         userMapper.updateUserFromDto(userDTO, user);
-        User savedUser = userRepository.save(user);
-        return userMapper.toDto(savedUser);
+        return userMapper.toDto(userRepository.save(user));
     }
 
     @Transactional
     public void deleteUser(Long id) {
         log.info("Удаление пользователя с ID: {}", id);
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
-        userRepository.delete(user);
+        userRepository.delete(userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id)));
     }
 
 }

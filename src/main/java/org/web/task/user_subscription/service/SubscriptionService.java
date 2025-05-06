@@ -25,7 +25,7 @@ public class SubscriptionService {
 
     @Transactional
     public SubscriptionDTO addSubscription(Long userId, SubscriptionDTO subscriptionDTO) {
-        log.info("Adding subscription for user ID: {}", userId);
+        log.info("Добавление подписки для пользователя ID: {}", userId);
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
@@ -38,7 +38,7 @@ public class SubscriptionService {
     }
 
     public List<SubscriptionDTO> getUserSubscriptions(Long userId) {
-        log.info("Fetching subscriptions for user ID: {}", userId);
+        log.info("Получение подписок для пользователя ID: {}", userId);
 
         if (!userRepository.existsById(userId)) {
             throw new UserNotFoundException(userId);
@@ -51,17 +51,17 @@ public class SubscriptionService {
 
     @Transactional
     public void deleteSubscription(Long userId, Long subscriptionId) {
-        log.info("Deleting subscription ID: {} for user ID: {}", subscriptionId, userId);
+        log.info("Удаление подписки ID: {} для пользователя ID: {}", subscriptionId, userId);
 
         Subscription subscription = subscriptionRepository.findByIdAndUserId(subscriptionId, userId)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Subscription not found with id: " + subscriptionId + " for user id: " + userId));
+                        "Подписка не найдена с id: " + subscriptionId + " для пользователя id: " + userId));
 
         subscriptionRepository.delete(subscription);
     }
 
     public List<Object[]> getTop3PopularSubscriptions() {
-        log.info("Fetching top 3 popular subscriptions");
+        log.info("Получение топ-3 популярных подписок");
         return subscriptionRepository.findTop3PopularSubscription();
     }
 }
