@@ -18,9 +18,11 @@ public class UserService {
     private final UserMapper userMapper;
 
     @Transactional
-    public User createUser(UserDTO userDTO) {
-        log.info("Создание нового пользователя с адресом электронной почты: {}", userDTO.getEmail());
-        return userRepository.save(userMapper.toEntity(userDTO));
+    public UserDTO createUser(UserDTO userDTO) {
+        log.info("Создание нового пользователя с email: {}", userDTO.getEmail());
+        User user = userMapper.toEntity(userDTO);
+        User savedUser = userRepository.save(user);
+        return userMapper.toDto(savedUser);
     }
 
     public UserDTO getUserById(Long id) {
