@@ -2,10 +2,11 @@ package org.web.task.user_subscription.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
 import org.web.task.user_subscription.dto.SubscriptionDTO;
 import org.web.task.user_subscription.model.Subscription;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface SubscriptionMapper {
     SubscriptionDTO toDto(Subscription subscription);
 
